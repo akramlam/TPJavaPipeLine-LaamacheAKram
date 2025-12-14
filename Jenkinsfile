@@ -10,25 +10,19 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh '''
-                    docker run --rm -v "${WORKSPACE}":/app -v maven-repo:/root/.m2 -w /app my-maven-git:latest mvn -B clean compile
-                '''
+                sh 'mvn -B clean compile'
             }
         }
 
         stage('Test') {
             steps {
-                sh '''
-                    docker run --rm -v "${WORKSPACE}":/app -v maven-repo:/root/.m2 -w /app my-maven-git:latest mvn -B test
-                '''
+                sh 'mvn -B test'
             }
         }
 
         stage('Package') {
             steps {
-                sh '''
-                    docker run --rm -v "${WORKSPACE}":/app -v maven-repo:/root/.m2 -w /app my-maven-git:latest mvn -B package -DskipTests
-                '''
+                sh 'mvn -B package -DskipTests'
             }
         }
     }
